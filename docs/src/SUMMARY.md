@@ -1,8 +1,8 @@
 # Summary
 
-[Introduction](introduction.md)
+[Overview](overview.md)
 
-# Summary
+# Sections
 
 - [Dashboard](./dashboard.md)
 - [Ballerina by Examples](./bbes.md)
@@ -20,13 +20,11 @@
   - [FTP](./examples/ftp.md)
   - [TCP](./examples/tcp.md)
 - [Scenarios](./scenarios.md)
-  - [STS](./scenarios/sts.md)
+  - [Secure Token Service (STS)](./scenarios/sts.md)
   - [E-Commerce System](./scenarios/e-commerce-system.md)
   - [Secured Order Management Service with JWT Auth](./scenarios/secured-order-management-service-with-jwt-auth.md)
   - [Secured Order Management Service with OAuth2](./scenarios/secured-order-management-service-with-oauth2.md)
-- [Integrations](./integrations.md)
-- [Issues](./issues.md)
-  
+
 # References
 
 - [References](./references.md)

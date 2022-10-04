@@ -1,6 +1,4 @@
-# Scenarios [![Scenarios](https://img.shields.io/github/workflow/status/ldclakmal/ballerina-security/Scenarios?logo=github&label=Status)](https://github.com/ldclakmal/ballerina-security/actions/workflows/scenarios.yml)
-
-This section demonstrates the real-world scenarios which have authentication and authorization requirements and how that can be supported with Ballerina.
+{{#include ../../README.md:79:83}}
 
 1. [Ballerina Secure Token Service (STS)](./scenarios/sts.md)
 2. [E-Commerce system](./scenarios/e-commerce-system.md)

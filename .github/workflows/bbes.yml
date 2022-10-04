@@ -1,22 +1,37 @@
-name: Security BBEs
+name: BBEs
 
 on:
-  push:
-    paths:
-      - 'bbes/**'
-      - '.github/workflows/bbes.yml'
+  workflow_run:
+    workflows: [ "Validate Ballerina Version" ]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
+      deb_url:
+        description: 'URL of the Ballerina DEB installer'
+        required: false
       artifact_id:
         description: 'GitHub Artifact ID of the Ballerina ZIP produced during Ballerina daily build'
         required: false
+      active_branch:
+        description: 'The relevant branch of the ballerina-distribution repository'
+        required: true
+        default: 'master'
+        type: choice
+        options:
+          - master
+          - 2201.1.x
+          - 2201.0.x
 
 jobs:
   general:
     name: General
     runs-on: ubuntu-latest
     env:
-      BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      RELEASED_BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      BALLERINA_DEB_URL: ${{ github.event.inputs.deb_url }}
+      BALLERINA_ARTIFACT_ID: ${{ github.event.inputs.artifact_id }}
+      ACTIVE_BRANCH: ${{ github.event.inputs.active_branch }}
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     strategy:
       matrix:
@@ -28,7 +43,7 @@ jobs:
         with:
           java-version: 11
       - name: Download & Install Ballerina
-        run: ./_resources/scripts/install.sh ${{ github.event.inputs.artifact_id }}
+        run: ./_resources/scripts/install.sh
       - name: Test
         working-directory: bbes/general
         run: ./${{ matrix.module }}.sh
@@ -36,7 +51,10 @@ jobs:
     name: HTTP
     runs-on: ubuntu-latest
     env:
-      BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      RELEASED_BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      BALLERINA_DEB_URL: ${{ github.event.inputs.deb_url }}
+      BALLERINA_ARTIFACT_ID: ${{ github.event.inputs.artifact_id }}
+      ACTIVE_BRANCH: ${{ github.event.inputs.active_branch }}
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     strategy:
       matrix:
@@ -50,7 +68,7 @@ jobs:
         with:
           java-version: 11
       - name: Download & Install Ballerina
-        run: ./_resources/scripts/install.sh ${{ github.event.inputs.artifact_id }}
+        run: ./_resources/scripts/install.sh
       - name: Test
         working-directory: bbes/http
         run: ./${{ matrix.bbe }}.sh
@@ -58,7 +76,10 @@ jobs:
     name: GraphQL
     runs-on: ubuntu-latest
     env:
-      BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      RELEASED_BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      BALLERINA_DEB_URL: ${{ github.event.inputs.deb_url }}
+      BALLERINA_ARTIFACT_ID: ${{ github.event.inputs.artifact_id }}
+      ACTIVE_BRANCH: ${{ github.event.inputs.active_branch }}
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     strategy:
       matrix:
@@ -71,7 +92,7 @@ jobs:
         with:
           java-version: 11
       - name: Download & Install Ballerina
-        run: ./_resources/scripts/install.sh ${{ github.event.inputs.artifact_id }}
+        run: ./_resources/scripts/install.sh
       - name: Test
         working-directory: bbes/graphql
         run: ./${{ matrix.bbe }}.sh
@@ -79,7 +100,10 @@ jobs:
     name: WebSocket
     runs-on: ubuntu-latest
     env:
-      BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      RELEASED_BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      BALLERINA_DEB_URL: ${{ github.event.inputs.deb_url }}
+      BALLERINA_ARTIFACT_ID: ${{ github.event.inputs.artifact_id }}
+      ACTIVE_BRANCH: ${{ github.event.inputs.active_branch }}
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     strategy:
       matrix:
@@ -93,7 +117,7 @@ jobs:
         with:
           java-version: 11
       - name: Download & Install Ballerina
-        run: ./_resources/scripts/install.sh ${{ github.event.inputs.artifact_id }}
+        run: ./_resources/scripts/install.sh
       - name: Test
         working-directory: bbes/websocket
         run: ./${{ matrix.bbe }}.sh
@@ -101,7 +125,10 @@ jobs:
     name: gRPC
     runs-on: ubuntu-latest
     env:
-      BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      RELEASED_BALLERINA_DEB_URL: ${{ secrets.BALLERINA_DEB_URL }}
+      BALLERINA_DEB_URL: ${{ github.event.inputs.deb_url }}
+      BALLERINA_ARTIFACT_ID: ${{ github.event.inputs.artifact_id }}
+      ACTIVE_BRANCH: ${{ github.event.inputs.active_branch }}
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     strategy:
       matrix:
@@ -115,7 +142,7 @@ jobs:
         with:
           java-version: 11
       - name: Download & Install Ballerina
-        run: ./_resources/scripts/install.sh ${{ github.event.inputs.artifact_id }}
+        run: ./_resources/scripts/install.sh
       - name: Test
         working-directory: bbes/grpc
         run: ./${{ matrix.bbe }}.sh
